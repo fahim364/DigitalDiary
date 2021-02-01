@@ -1,0 +1,292 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Class_Association
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            
+
+                     Address address = new Address("21", "27/A", "Dhaka", "Bangladesh");
+                     Account account1 = new Account("Khan", 8700,0, address);
+                    
+                     Bank ourBank = new Bank("Standard Chartered", 5);
+                     ourBank.AddAccount(account1);
+                   
+                     ourBank.AddAccount(new Account("Trisha", 2100,0, new Address("11", "29/A", "Dhaka", "Bangladesh")));
+                     ourBank.AddAccount(new Account("Ron", 15400, 0, new Address("1", "25/A", "Dhaka", "Bangladesh")));
+
+            Console.WriteLine("Press \n1 to deposit\n2 to withdraw\n3 to print account details\n4 to Deposite ");
+            string  option = Console.ReadLine();
+            int i=Convert.ToInt32(option) ;
+            if(i==1)
+            {
+                account1.doDeposit();
+                
+            }
+            else if (i == 2)
+            {
+                account1.doWithdrawl();
+            }
+            else if(i==3)
+            {
+                ourBank.PrintAccountDetails(1);
+                ourBank.PrintAccountDetails(2);
+                ourBank.PrintAccountDetails(3);
+
+            }
+            else if(i==4)
+            {
+                account1.doDeposit();
+
+            }
+            else
+            {
+                Console.WriteLine("There is no such option Getting Exit....");
+            }
+        }
+
+        
+    }
+}
+##########
+
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Class_Association
+{
+    class Bank
+    {
+        private string bankName;
+        Account[] accounts;
+
+        public Bank(string bankName,int size)
+        {
+            this.bankName = bankName;
+            this.accounts = new Account[size];
+
+        }
+        public void AddAccount(Account account)
+        {
+            for (int i = 0; i < accounts.Length; i++)
+                {
+                    if (accounts[i] == null)
+                    {
+                        accounts[i] = account;
+                        break;
+                    }
+                }
+        }
+           
+        
+      /*public void DeleteAccount(Account account)
+
+        {
+            Console.WriteLine("If you want to delete any account then press YES otherwise press No");
+            string delete = Console.ReadLine();
+            Console.WriteLine("You have pressed : " + delete);
+            if (delete == "YES")
+            { 
+
+                for (int i = 0; i < accounts.Length; i++)
+            {
+                if (accounts[i] != null)
+                {
+                    accounts[i] = null;
+                    break;
+                }
+                if(accounts[i]==null)
+                {
+                    accounts[i] = account;
+                    break;
+                }
+            }
+        }
+            else
+            {
+                Console.WriteLine("Not deleted.");
+            }
+        public void Transaction()
+        {
+
+        }*/
+      public void Transaction(int doDeposit)
+        {
+            
+        }
+        public void PrintAccountDetails(int accountNo)
+        { 
+            for(int i = 0; i < accounts.Length; i++)
+            {
+                if(accounts[i].AccountNumber==accountNo)
+                {
+                    accounts[i].ShowAccountInformation();
+                    break;
+
+                }
+            }
+        }
+
+    }
+}
+#####################33
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Class_Association
+{
+    class Address
+    {
+        private string roadNo, houseNo, city, country;
+
+        public Address(string roadNo,string houseNo,string city,string country)
+        {
+            this.roadNo = roadNo;
+            this.houseNo = houseNo;
+            this.city = city;
+            this.country = country;
+
+        }
+
+        public string RoadNo
+        {
+            set { this.roadNo = value; }
+            get { return this.roadNo; }
+        }
+        public string HouseNo
+        {
+            set { this.houseNo = value; }
+            get { return this.houseNo; }
+        }
+        public string City
+        {
+            set { this.city = value; }
+            get { return this.city; }
+        }
+        public string Country
+        {
+            set { this.country = value; }
+            get { return this.country; }
+        }
+        
+        public string GetAddress()
+        {
+            return this.roadNo + "," + this.houseNo + "," + this.city + "," + this.country;
+        }
+    }
+}
+#################
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Class_Association
+{
+    class Account
+    {
+        
+            private int accountNumber;
+            private string accountName;
+            private double balance;
+            private Address address;
+            private double amount;
+            private static int count = 1;
+
+        public Account()
+        {
+            accountNumber = count;
+            count++;
+        }
+        public Account(string accountName,double balance,double amount,Address address):this()
+        {
+            this.accountName = accountName;
+            this.balance = balance;
+            this.address = address;
+            this.amount = amount;
+        }
+        public Account(double balance, string accountName, double amount, Address address) : this(accountName, balance, amount, address)
+        {
+
+        }
+         public int AccountNumber
+        {
+            set { this.accountNumber = value; }
+            get { return this.accountNumber; }
+        }
+        public string AccountName
+        {
+            set { this.accountName = value; }
+            get { return this.accountName; }
+        }
+        public double Balance
+        {
+            set { this.balance = value; }
+            get { return this.balance; }
+
+        }
+        public Address Address
+        {
+            set { this.address = value; }
+            get { return this.address; }
+        }
+
+        public double Amount
+        {
+            set { this.amount = value; }
+            get { return this.amount; }
+        }
+
+        public void ShowAccountInformation()
+        {
+
+            Console.WriteLine("Account Number :" + this.accountNumber);
+            Console.WriteLine("Account Name :" + this.accountName);
+            Console.WriteLine("Account Balance :" + this.balance);
+            Console.WriteLine("Account Amount you have withdrawn or deposited right now :" + this.amount);
+            Console.WriteLine("Adress :" + address.GetAddress());
+        }
+        
+
+
+        public void doDeposit()
+        {
+            Console.WriteLine("Enter the amount you want to deposit:");
+            
+            double amount = Console.Read();
+           
+           double i= amount + balance;
+            Console.WriteLine("You have deposited the amount and this is your balance:"+i);
+           
+
+        }
+
+        public void doWithdrawl()
+        {
+            Console.WriteLine("Enter the amount you want to withdraw:");
+            double amount = Console.Read();
+
+            double i = balance - amount;
+            Console.WriteLine("You have withdrawn the amount and this is your balance:" + i);
+
+            //balance -= amount;
+            //return balance;
+        }
+    }
+
+
+}
+
